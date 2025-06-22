@@ -15,7 +15,7 @@ This portfolio highlights my work, design style, and development capabilities. I
 2. Customize the content by editing the HTML files.
 3. Update the styles in CSS to change the look and feel as needed.
 
-#Purpose
+# Purpose
 1. This portfolio was built to:
 2. Present my skills and projects to potential employers and clients
 3. Practice front-end web development and design
