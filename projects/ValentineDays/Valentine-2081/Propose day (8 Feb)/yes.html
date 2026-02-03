@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Day</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            color: white;
+        }
+        .loading {
+            font-size: 24px;
+            animation: fadeInOut 2s infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .hidden { display: none; }
+        .final-message {
+            font-size: 30px;
+            opacity: 0;
+            animation: fadeIn 3s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .heart-float {
+            position: absolute;
+            bottom: 0;
+            color: red;
+            font-size: 30px;
+            opacity: 0.8;
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="initial-page">
+        <div class="tenor-gif-embed" data-postid="27047320" data-share-method="host" data-aspect-ratio="1.09966" data-width="100%">
+            <a href="https://tenor.com/view/mocha-and-milk-mocha-bear-hug-cute-love-gif-27047320">Mocha And Milk Mocha Bear GIF</a> from 
+            <a href="https://tenor.com/search/mocha+and+milk-gifs">Mocha And Milk GIFs</a>
+        </div>
+        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <h1>Hehehehehehehe, I knew it!😘😘</h1>
+        <div class="loading">Loading... <span id="countdown">10</span> 💖</div>
+    </div>
+
+    <div class="container hidden" id="final-page">
+        <h1>💖 You Are My Everything 💖</h1>
+        <p class="final-message">From the moment I met you, my world became brighter. You are the reason my heart beats faster, my smile shines wider, and my life feels complete. Thank you for being my happiness, my love, and my forever. 💞</p>
+    </div>
+    <div class="floating-hearts"></div>
+
+    <script>
+        let countdown = 10;
+        const countdownElement = document.getElementById("countdown");
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown === 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+
+        setTimeout(() => {
+            document.getElementById("initial-page").classList.add("hidden");
+            document.getElementById("final-page").classList.remove("hidden");
+        }, 10000);
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart-float");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            document.querySelector(".floating-hearts").appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>

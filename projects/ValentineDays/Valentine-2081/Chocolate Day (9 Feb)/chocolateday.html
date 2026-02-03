@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Chocolate Day</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #3e2723;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        .loading-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #5d4037;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            animation: fadeOut 3s 3s forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        .container {
+            opacity: 0;
+            animation: fadeIn 2s 6s forwards;
+            position: relative;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .chocolates {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .chocolate {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #7b3f00;
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(-100px); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+        .btn {
+            background: #d7a86e;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            transition: transform 0.3s ease-in-out;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.7);
+        }
+        .message-box {
+            display: none;
+            background: rgba(78, 52, 46, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(255, 215, 0, 0.5);
+            animation: fadeIn 2s;
+            margin-top: 20px;
+        }
+
+        .fstpage{
+            padding: 12px;
+            color: white;
+            background: rgb(247, 68, 98);
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" style="font-family: Garamond, serif;">Happy Chocolate Day My Beautiful Wifey 🍫❤️</div>
+    <div class="chocolates"></div>
+    <div class="container">
+        <h1>Happy Chocolate Day, My Love!</h1>
+        <p>Just like chocolate, your love fills my life with sweetness and joy. 💕</p>
+        <button class="btn" onclick="showMessage()">Click to Unwrap My Love</button>
+        <div class="message-box" id="message">
+            <h2>My Love for You</h2>
+            <p>Happy Chocolate Day, My Love! 🍫❤️
+
+Just like chocolate melts in your mouth, your love melts my heart. Every moment with you is as sweet and delightful as the richest chocolate. Your love is my favorite flavor, and I want to savor it forever.  
+
+You are the cocoa to my heart, the sweetness in my life, and the one who makes my world irresistibly beautiful. I promise to always be your sweetest treat, today and forever.  
+
+Sending you all my love and the warmest, chocolaty hugs! 💖🍫"</p>
+        </div>
+    </div>
+
+    <a href="../valentineweek.html" class="fstpage">Back</a>
+    <script>
+        function createChocolate() {
+            let chocolate = document.createElement("div");
+            chocolate.classList.add("chocolate");
+            chocolate.style.left = Math.random() * 100 + "vw";
+            chocolate.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.querySelector(".chocolates").appendChild(chocolate);
+            setTimeout(() => chocolate.remove(), 5000);
+        }
+        setInterval(createChocolate, 300);
+
+        function showMessage() {
+            document.getElementById("message").style.display = "block";
+        }
+    </script>
+</body>
+</html>

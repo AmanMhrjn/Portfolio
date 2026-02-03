@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="valentine.css">
+    <title>Propose Day</title>
+</head>
+<body>
+    <div class="container">
+        <div class="tenor-gif-embed" data-postid="15998804" data-share-method="host" data-aspect-ratio="1.0356" data-width="100%"><a href="https://tenor.com/view/cutie-cat-chan-tears-falling-gif-15998804">Cutie Cat Sticker</a>from <a href="https://tenor.com/search/cutie-stickers">Cutie Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <h1>Accept It na!!! why are you not accepting?😭</h1>
+        <p>Choose "Yes" or "No"</p>
+
+        <div class="btn">
+            <a href="yes.html">Yes</a>
+            <a href="no4.html" id="move-random">No</a>
+        </div>
+    </div>
+    <script>
+        function moveRandomEl(elm){
+            elm.style.position = "absolute";
+            elm.style.top = Math.floor(Math.random() * 90 + 5) + "%";
+            elm.style.left = Math.floor(Math.random() * 90 + 5) + "%";
+        }
+
+        const moveRandom = document.querySelector("#move-random");
+
+        moveRandom.addEventListener("mouseenter", function (e){
+            moveRandomEl(e.target);
+        });
+    </script>
+</body>
+</html>
