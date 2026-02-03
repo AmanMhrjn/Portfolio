@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="../CSS/contactus.css">
+
+<section id="contact" class="contact-section">
+  <div class="contact-wrap">
+    <h2 class="contact-title">Contact <span>Me</span></h2>
+    <p class="contact-subtitle">
+      Have a project in mind or want to work together? Send me a message.
+    </p>
+
+    <!-- NETLIFY FORM -->
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/thank-you.html"
+      class="contact-form"
+    >
+      <!-- required hidden -->
+      <input type="hidden" name="form-name" value="contact" />
+
+      <!-- honeypot (spam protection) -->
+      <p class="hidden">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <div class="grid">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input id="subject" name="subject" type="text" placeholder="How can I help?" required />
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
+      </div>
+
+      <button type="submit" class="contact-btn">Send Message</button>
+    </form>
+  </div>
+</section>

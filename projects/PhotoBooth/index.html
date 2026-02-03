@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PhotoBooth</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>📸 PhotoBooth 📸</h1>
+    <p class="hint">Start camera → choose Photos + Interval + Filter + Template → Start Session → remove unwanted shots
+      → download.</p>
+
+    <div class="row">
+      <div class="card">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <canvas id="stripCanvas" style="display:none;"></canvas>
+
+        <div class="controls">
+          <button id="startCam" class="primary">Start Camera</button>
+          <button id="stopCam" class="danger" disabled>Stop Camera</button>
+
+          <label>
+            Photos:
+            <select id="photoCount">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option selected>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </label>
+
+          <label>
+            Interval:
+            <select id="interval">
+              <option value="3">3 sec</option>
+              <option value="5" selected>5 sec</option>
+              <option value="10">10 sec</option>
+              <option value="15">15 sec</option>
+            </select>
+          </label>
+
+          <label>
+            Filter:
+            <select id="filter">
+              <option value="none" selected>None</option>
+              <option value="bw">Black & White</option>
+              <option value="vintage">Vintage</option>
+              <option value="warm">Warm</option>
+              <option value="cool">Cool</option>
+            </select>
+          </label>
+
+          <label>
+            Template:
+            <select id="template">
+              <option value="none" selected>None</option>
+              <option value="strip">Photo Strip (classic)</option>
+              <option value="polaroid">Polaroid Card</option>
+              <option value="grid2x2">Grid 2×2</option>
+            </select>
+          </label>
+
+          <button id="startSession" class="primary" disabled>Start Session</button>
+        </div>
+
+        <div class="bar">
+          <button id="clear" class="ghost" disabled>Clear</button>
+          <button id="downloadAll" class="ghost" disabled>Download All (ZIP)</button>
+          <button id="makeStrip" class="ghost" disabled>Make Strip Image</button>
+          <button id="downloadStrip" class="ghost" disabled>Download Strip</button>
+        </div>
+
+        <div id="statusLine">
+          <span>Status: </span><span id="status">Camera off</span>
+          <div id="countdown"></div>
+          <div class="tiny">Tip: camera works best on HTTPS or http://localhost</div>
+        </div>
+
+        <div class="previewStrip" id="stripPreview">
+          <h3 style="margin:14px 0 8px">Strip Preview</h3>
+          <img id="stripImg" alt="strip preview" />
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px">Captured Photos</h3>
+        <div id="gallery" class="grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSZip for Download All -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+ <script src="script.js"></script>
+</body>
+
+</html>
