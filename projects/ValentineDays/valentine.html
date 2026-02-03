@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Years</title>
+</head>
+
+<body>
+    <style>
+        /* =========================
+   Valentine Section
+========================= */
+
+        .valentine-section {
+            position: relative;
+            min-height: 100vh;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #ffe6ea, #ffd1dc, #fff0f5);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* title */
+        .valentine-title {
+            font-size: 42px;
+            color: #d6336c;
+            margin-bottom: 50px;
+            font-weight: bold;
+        }
+
+        /* cards layout */
+        .valentine-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* card style */
+        .v-card {
+            width: 250px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            background: white;
+            text-decoration: none;
+            color: #d6336c;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: 0.4s ease;
+            position: relative;
+        }
+
+        /* hover animation */
+        .v-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(214, 51, 108, 0.35);
+        }
+
+        /* heart glow */
+        .v-card::before {
+            content: "🌹";
+            font-size: 28px;
+            position: absolute;
+            top: -15px;
+            right: -15px;
+        }
+
+        /* =========================
+   Falling Roses
+========================= */
+
+        .rose {
+            position: absolute;
+            top: -50px;
+            font-size: 22px;
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0);
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+    <section class="valentine-section">
+
+        <h2 class="valentine-title">💘 Valentine Years</h2>
+
+        <div class="valentine-cards">
+
+            <a href="./Valentine-2081/valentineweek.html" class="v-card">
+                <h3>Valentine 2081</h3>
+                <p>Memories & Projects</p>
+            </a>
+
+            <a href="./Valentine-2082/valentineweek.html" class="v-card">
+                <h3>Valentine 2082</h3>
+                <p>Memories & Projects</p>
+            </a>
+
+            <!-- add more years same way -->
+
+        </div>
+
+        <!-- falling roses container -->
+        <div class="rose-container"></div>
+
+    </section>
+
+    <script>
+        const container = document.querySelector(".rose-container");
+
+        function createRose() {
+            const rose = document.createElement("div");
+            rose.classList.add("rose");
+            rose.innerHTML = "🌹";
+
+            rose.style.left = Math.random() * 100 + "vw";
+            rose.style.animationDuration = (4 + Math.random() * 5) + "s";
+            rose.style.fontSize = (16 + Math.random() * 20) + "px";
+
+            container.appendChild(rose);
+
+            setTimeout(() => {
+                rose.remove();
+            }, 9000);
+        }
+
+        setInterval(createRose, 300);
+    </script>
+
+</body>
+
+</html>

@@ -36,15 +36,15 @@ const portfolioProjects = [
   {
     title: "Valentine's Days Website",
     category: "Web Developer",
-    image: "",
-    link: "../projects/Valentine-Week-2025/valentineweek.html",
+    image: "../images/projects/Valentine.png",
+    link: "../projects/ValentineDays/valentine.html",
     // likes: 221
   },
 
   {
     title: "PhotoBooth for Couples",
     category: "Web Developer",
-    image: "images/projects/p3.jpg",
+    image: "../images/projects/PhotoBooth.png",
     link: "../projects/PhotoBooth/index.html",
     // likes: 221
   },
