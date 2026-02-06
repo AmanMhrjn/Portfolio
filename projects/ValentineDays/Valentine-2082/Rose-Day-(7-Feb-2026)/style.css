@@ -1235,3 +1235,85 @@ body {
 .glass-message.show {
     transform: translate(-50%, -50%) scale(1);
 }
+
+
+
+/* =========================
+   RESPONSIVE (Tablet + Mobile)
+   Add only this at bottom
+========================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+
+  body {
+    perspective: 700px;
+  }
+
+  .flowers {
+    /* transform: scale(0.7); */
+  }
+
+  .night {
+    filter: blur(0.08vmin);
+  }
+
+  .glass-message {
+    width: 85%;
+    padding: 30px 25px;
+    font-size: 18px;
+  }
+}
+
+
+/* Large Phones */
+@media (max-width: 768px) {
+
+  body {
+    /* align-items: center; */
+    overflow: hidden;
+  }
+
+  .flowers {
+    /* transform: scale(0.55); */
+  }
+
+  .night {
+    filter: blur(0.05vmin);
+  }
+
+  .glass-message {
+    width: 90%;
+    font-size: 16px;
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .flowers {
+    /* transform: scale(0.42); */
+  }
+
+  .glass-message {
+    width: 92%;
+    font-size: 14px;
+    padding: 20px 15px;
+  }
+}
+
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+
+  .flowers {
+    /* transform: scale(0.35); */
+  }
+
+  .glass-message {
+    font-size: 13px;
+  }
+}
