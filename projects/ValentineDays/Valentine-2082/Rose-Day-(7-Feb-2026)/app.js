@@ -8,12 +8,12 @@ onload = () => {
 
 window.addEventListener("load", () => {
 
-    const message = `HAPPY ROSE DAY ❤️
-
-To my beautiful girl, wishing you a Happy Rose Day.
-May you glow like flowers every day with your lovely face.
-
-With lots of love to you 🌹💖`;
+    const message = `
+    This rose is for the most special girl in my life 🌹
+    You came into my world and turned everything into happiness and peace.
+    I’m so lucky to call you mine. 
+    
+    Happy Rose Day🌹, CutiePie Baby😘❤️`;
 
     const typingEl = document.getElementById("typingText");
     const popup = document.getElementById("glassMessage");
