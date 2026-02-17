@@ -39,7 +39,7 @@
             box-sizing: border-box;
         }
 
-        .step {
+        /* .step {
             position: absolute;
             width: 100%;
             max-width: 800px;
@@ -53,7 +53,24 @@
             transform: translateY(20px);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
+        } */
+
+        .step {
+            position: absolute;
+            width: 95%;
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
         }
+
 
         .step.active {
             opacity: 1;
@@ -221,6 +238,67 @@
                 background-position: 0% 50%;
             }
         }
+
+
+        /* ========== TABLET ========== */
+        @media (max-width: 1024px) {
+            .step {
+                padding: 30px 20px;
+            }
+
+            h1,
+            h2 {
+                font-size: 28px !important;
+            }
+
+            p {
+                font-size: 16px !important;
+            }
+        }
+
+        /* ========== MOBILE ========== */
+        @media (max-width: 640px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .step {
+                padding: 25px 15px;
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 24px !important;
+            }
+
+            h2 {
+                font-size: 22px !important;
+            }
+
+            p {
+                font-size: 14px !important;
+            }
+
+            .emoji {
+                font-size: 2rem;
+            }
+
+            .btn,
+            .carouselimagebtn {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .images {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px;
+            }
+
+            .reason-card {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 
@@ -282,7 +360,9 @@
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">Remember When...</h2>
                 <div
                     class="bg-gradient-to-r from-pink-200 to-rose-200 rounded-xl p-8 mb-8 flex flex-col justify-center items-center">
-                    <div class="images grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+                    <!-- <div class="images grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5"> -->
+                    <div class="images grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
                         <img src="images/19.jpg" class="w-full rounded-lg" />
                         <img src="images/8.jpg" class="w-full rounded-lg" />
                         <img src="images/22.jpg" class="w-full rounded-lg" />
@@ -310,10 +390,17 @@
                 <p class="text-xl font-semibold text-pink-600 mb-8">
                     Happy Birthday, Baby🫶! ❤️
                 </p>
-                <button class="btn" id="confetti-btn">Celebrate!</button>
+                <!-- <button class="btn" id="confetti-btn">Celebrate!</button>
                 <a class="carouselimagebtn" href="/projects/Birthday/Photo Image Source Code/index.html">
                     One Last <span class="heart">❤️</span> (Click)
-                </a>
+                </a> -->
+                <div class="flex flex-col items-center gap-4">
+                    <button class="btn" id="confetti-btn">Celebrate!</button>
+                    <a class="carouselimagebtn" href="/projects/Birthday/Photo Image Source Code/index.html">
+                        One Last <span class="heart">❤️</span> (Click)
+                    </a>
+                </div>
+
                 <p class="mt-8 text-gray-500">Made with ❤️ just for you</p>
             </div>
         </div>
@@ -358,7 +445,11 @@
             0xff9e9e, 0xffc1c1, 0xff6b8e, 0xff8eb3
         ];
 
-        for (let i = 0; i < 25; i++) {
+        // for (let i = 0; i < 25; i++) {
+        const heartCount = window.innerWidth < 640 ? 12 : 25;
+
+        for (let i = 0; i < heartCount; i++) {
+
             const material = new THREE.MeshPhongMaterial({
                 color: colors[Math.floor(Math.random() * colors.length)],
                 emissive: 0xff0000,
@@ -433,7 +524,10 @@
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
+            // renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.setSize(window.innerWidth, window.innerHeight);
+
         });
 
         // Step Navigation
