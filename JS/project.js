@@ -42,6 +42,14 @@ const portfolioProjects = [
   },
 
   {
+    title: "Birthday Website",
+    category: "Web Developer",
+    image: "",
+    link: "../projects/Birthday/index.html",
+    // likes: 221
+  },
+
+  {
     title: "PhotoBooth for Couples",
     category: "Web Developer",
     image: "../images/projects/PhotoBooth.png",

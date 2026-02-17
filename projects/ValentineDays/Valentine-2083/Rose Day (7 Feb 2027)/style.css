@@ -1,0 +1,265 @@
+ :root {
+     --rose: #ff4d6d;
+     --pink: #ffb3c1;
+     --bg: #fff0f3;
+     --glass: rgba(255, 255, 255, 0.85);
+ }
+
+ * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+ }
+
+ body {
+     background: linear-gradient(45deg, var(--bg), #ffe5ec, var(--bg));
+     background-size: 400% 400%;
+     animation: bgMove 15s ease infinite;
+     font-family: 'Outfit', sans-serif;
+     overflow: hidden;
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     touch-action: manipulation;
+ }
+
+ @keyframes bgMove {
+     0% {
+         background-position: 0% 50%;
+     }
+
+     50% {
+         background-position: 100% 50%;
+     }
+
+     100% {
+         background-position: 0% 50%;
+     }
+ }
+
+ .cursive {
+     font-family: 'Dancing Script', cursive;
+ }
+
+ .text-rose {
+     color: var(--rose);
+ }
+
+ .italic-font {
+     font-family: 'Playfair Display', serif;
+     font-style: italic;
+ }
+
+ .page {
+     display: none;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     opacity: 0;
+     transform: scale(0.95);
+     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+     width: 100%;
+     padding: 20px;
+ }
+
+ .page.show {
+     display: flex;
+     opacity: 1;
+     transform: scale(1);
+ }
+
+ .petal {
+     position: fixed;
+     top: -50px;
+     pointer-events: none;
+     z-index: 1;
+     animation: fall linear forwards;
+ }
+
+ @keyframes fall {
+     to {
+         transform: translateY(110vh) rotate(360deg);
+     }
+ }
+
+ .card {
+     background: var(--glass);
+     backdrop-filter: blur(20px);
+     border: 1px solid rgba(255, 255, 255, 0.5);
+     border-radius: 40px;
+     box-shadow: 0 20px 40px rgba(255, 77, 109, 0.15);
+     padding: 40px;
+     text-align: center;
+     width: 100%;
+     max-width: 450px;
+     position: relative;
+     /* This is the parent for absolute buttons */
+ }
+
+ .btn {
+     border: none;
+     border-radius: 50px;
+     font-weight: bold;
+     cursor: pointer;
+     transition: transform 0.2s;
+     display: inline-block;
+ }
+
+ .btn-main {
+     background: var(--rose);
+     color: white;
+     padding: 16px 40px;
+     box-shadow: 0 10px 15px rgba(255, 77, 109, 0.3);
+     position: relative;
+     z-index: 10;
+ }
+
+ .btn-sub {
+     background: white;
+     border: 2px solid var(--rose);
+     color: var(--rose);
+     padding: 12px 32px;
+     border-radius: 16px;
+     z-index: 1000;
+     /* Extremely high z-index to stay on top */
+     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+ }
+
+ #yes-btn {
+     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+     font-size: 20px;
+ }
+
+ .input-name {
+     width: 100%;
+     border: none;
+     border-bottom: 2px solid var(--pink);
+     background: transparent;
+     outline: none;
+     text-align: center;
+     font-size: 24px;
+     color: var(--rose);
+     font-weight: 600;
+     padding: 8px 0;
+     margin-bottom: 8px;
+     transition: border-color 0.3s;
+ }
+
+ .input-name.error {
+     border-color: var(--rose);
+     animation: shake 0.5s;
+ }
+
+ @keyframes shake {
+
+     0%,
+     100% {
+         transform: translateX(0);
+     }
+
+     25% {
+         transform: translateX(-5px);
+     }
+
+     75% {
+         transform: translateX(5px);
+     }
+ }
+
+ #err-msg {
+     color: var(--rose);
+     font-size: 12px;
+     margin-bottom: 30px;
+     opacity: 0;
+     transition: opacity 0.3s;
+ }
+
+ .note-box {
+     background: white;
+     padding: 24px;
+     border-radius: 20px;
+     border: 2px dashed var(--pink);
+     margin-top: 24px;
+     position: relative;
+ }
+
+ .note-tag {
+     position: absolute;
+     top: -12px;
+     left: 20px;
+     background: white;
+     padding: 0 8px;
+     font-size: 10px;
+     font-weight: 900;
+     color: var(--pink);
+     letter-spacing: 1px;
+ }
+
+ @keyframes float {
+
+     0%,
+     100% {
+         transform: translateY(0);
+     }
+
+     50% {
+         transform: translateY(-12px);
+     }
+ }
+
+ .float {
+     animation: float 3s ease-in-out infinite;
+ }
+
+ @keyframes pulse {
+
+     0%,
+     100% {
+         opacity: 1;
+     }
+
+     50% {
+         opacity: 0.5;
+     }
+ }
+
+ .pulse {
+     animation: pulse 2s infinite;
+ }
+
+ .btn-row {
+     display: flex;
+     gap: 16px;
+     justify-content: center;
+     width: 100%;
+     margin-top: 20px;
+     /* Removed position relative here so child absolute buttons look at the card */
+ }
+
+ .emoji {
+     font-size: 72px;
+     margin-bottom: 32px;
+ }
+
+ #hint {
+     background: rgba(255, 255, 255, 0.7);
+     padding: 8px 15px;
+     border-radius: 15px;
+     display: inline-block;
+     margin-top: 32px;
+     font-weight: 900;
+     color: var(--rose);
+     min-height: 40px;
+     box-shadow: 0 4px 10px rgba(255, 77, 109, 0.1);
+ }
+
+ @media (max-width: 640px) {
+     .btn-row {
+         flex-direction: column;
+     }
+
+     .btn {
+         width: 100%;
+     }
+ }

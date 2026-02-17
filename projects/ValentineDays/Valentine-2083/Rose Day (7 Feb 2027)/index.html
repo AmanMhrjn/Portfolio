@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person 🌹</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;600&family=Playfair+Display:italic,wght@700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="rain-box"></div>
+
+    <!-- LOADER -->
+    <div id="p-load" class="page show">
+        <div
+            style="position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+            <div class="emoji float">🌹</div>
+        </div>
+        <p style="margin-top: 32px; color: #ff4d6d; font-weight: bold; text-transform: uppercase;" class="pulse">Growing
+            Your Rose...</p>
+    </div>
+
+    <!-- ENTRY -->
+    <div id="p-entry" class="page">
+        <div class="card" style="max-width: 380px;">
+            <div class="emoji float">🌹</div>
+            <h1 style="margin-bottom: 8px;">Wait!</h1>
+            <p style="color: #4b5563; margin-bottom: 32px;">Who should I give this rose to?</p>
+
+            <input type="text" id="name-in" placeholder="Enter name..." class="input-name" maxlength="15">
+            <p id="err-msg">Please enter a name first! ✨</p>
+
+            <button onclick="checkName()" class="btn btn-main">Give Rose 🌹</button>
+        </div>
+    </div>
+
+    <!-- CHALLENGE -->
+    <div id="p-play" class="page">
+        <div id="game-card" class="card"
+            style="min-height: 540px; display: flex; flex-direction: column; align-items: center;">
+            <div class="emoji float" style="margin-top: 32px;">🌹</div>
+            <h2 class="cursive text-rose" style="font-size: 36px; margin-bottom: 8px;">For You, <span
+                    id="user-nm">...</span></h2>
+            <p style="color: #4b5563; margin-bottom: 40px; font-size: 18px;">Will you accept this rose and be my
+                favorite person?</p>
+
+            <div class="btn-row">
+                <button id="yes-btn" onclick="goFinal()" class="btn btn-main">Yes, I will! ❤️</button>
+                <button id="no-btn" onmouseover="moveNo()" onclick="moveNo()" class="btn btn-sub">No</button>
+            </div>
+
+            <p id="hint" class="text-rose"></p>
+        </div>
+    </div>
+
+    <!-- FINAL -->
+    <div id="p-end" class="page">
+        <div class="card">
+            <div class="emoji float">🌹</div>
+
+            <p class="cursive text-rose" style="font-size: 28px; margin-bottom: 4px;">Happy Rose Day</p>
+            <h1 class="cursive text-rose" style="font-size: 36px; margin-bottom: 8px;">Hey <span id="final-nm"></span>!
+            </h1>
+            <p id="type-out" class="italic-font"
+                style="min-height: 24px; color: #4b5563; font-size: 20px; margin-bottom: 32px;"></p>
+
+            <div class="note-box">
+                <div class="note-tag">A LITTLE NOTE</div>
+                <p style="color: #4b5563; line-height: 1.6; font-size: 14px; font-style: italic;">
+                    "Just like this rose, my feelings for you grow more beautiful every single day. You make everything
+                    feel like springtime. Thank you for being you!"
+                </p>
+                <div style="text-align: right; margin-top: 8px; color: #ff4d6d; font-weight: bold;">❤️ ✨ 🌹</div>
+            </div>
+
+            <button onclick="window.location.reload()" class="btn btn-main" style="margin-top: 32px;">See it again
+                ✨</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
