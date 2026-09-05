@@ -58,6 +58,14 @@ const portfolioProjects = [
   },
 
   {
+    title: "Westfield Mall Map Locator ",
+    category: "Web Developer",
+    image: "../images/projects/PhotoBooth.png",
+    link: "../projects/WestfieldMallMap/index.html",
+    // likes: 221
+  },
+
+  {
     title: "Brand Logo Design",
     category: "Logos",
     type: "logo",
