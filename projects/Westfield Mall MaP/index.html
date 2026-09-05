@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Westfield Area Locator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #17202a;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 22px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    header h1 {
+      margin: 0 0 5px;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: .8;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px 17px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      background: white;
+      margin-bottom: 18px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 14px #0000000d;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 17px;
+      cursor: pointer;
+      font-weight: 700;
+      background: #e5e7eb;
+      color: #111827;
+      transition: .15s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.active {
+      background: #111827;
+      color: white;
+    }
+
+    .floor-btn {
+      min-width: 120px;
+    }
+
+    .area-btn {
+      min-width: 90px;
+    }
+
+    .category-btn {
+      min-width: 150px;
+    }
+
+    \n .lobby-btn {
+      min-width: 120px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .map {
+      min-height: 420px;
+      border: 2px solid #cbd5e1;
+      border-radius: 15px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      grid-template-rows: 1fr 1.3fr 1fr;
+      gap: 8px;
+      background: #f8fafc;
+    }
+
+    .zone {
+      border: 2px solid #94a3b8;
+      border-radius: 12px;
+      padding: 12px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .zone strong {
+      font-size: 20px;
+    }
+
+    .zone span {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #64748b;
+    }
+
+    .zone.selected {
+      outline: 4px solid #111827;
+    }
+
+    .a {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .b {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .c {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .d {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .center-note {
+      grid-column: 2;
+      grid-row: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .results {
+      min-height: 420px;
+    }
+
+    .result-title {
+      margin-bottom: 10px;
+    }
+
+    .shop {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .shop strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: #e5e7eb;
+      margin: 3px 3px 0 0;
+    }
+
+    .empty {
+      color: #64748b;
+      padding: 30px 5px;
+      text-align: center;
+    }
+
+    .notice {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 12px;
+    }
+    /* Search Result Popup */
+.search-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.search-popup.show {
+  display: flex;
+}
+
+.search-popup-box {
+  width: 100%;
+  max-width: 550px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.search-popup-box h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+}
+
+.close-popup {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #e5e7eb;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.close-popup:hover {
+  background: #d1d5db;
+  transform: none;
+}
+
+.popup-shop {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+}
+
+.popup-shop strong {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.popup-empty {
+  text-align: center;
+  padding: 30px 10px;
+  color: #64748b;
+}
+
+    @media(max-width:800px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .map,
+      .results {
+        min-height: 350px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📍 Westfield Area Locator</h1>
+    <p>Simple floor → area → lobby → side → shop locator</p>
+  </header>
+
+  <main>
+    <input id="search" class="search" placeholder="🔎 Search a shop, area or category..." />
+
+    <div class="section">
+      <h2>1. Select Floor</h2>
+      <div id="floors" class="buttons"></div>
+    </div>
+
+    <div class="section">
+      <h2>2. Select Area</h2>
+      <div id="areas" class="buttons"></div>
+    </div>
+
+    <div class="section">
+      <h2>3. Select Lobby / Side / Category</h2>
+      <div id="categories" class="buttons"></div>
+    </div>
+    <div class="section">
+      <h2>4. Select Lobby</h2>
+      <div id="lobbies" class="buttons"></div>
+    </div>
+
+    <div class="layout">
+      <div class="section">
+        <h2 id="mapTitle">Area Map</h2>
+        <div class="map">
+          <div class="zone a" data-cat="A"><strong>A</strong><span>Left Side</span></div>
+          <div class="zone b" data-cat="B"><strong>B</strong><span>Central</span></div>
+          <div class="zone c" data-cat="C"><strong>C</strong><span>Right Side</span></div>
+          <div class="zone d" data-cat="D"><strong>D</strong><span>Central Backward</span></div>
+        </div>
+      </div>
+
+      <div class="section results">
+        <h2 class="result-title">📋 Locations</h2>
+        <div id="summary" class="notice"></div>
+        <div id="results"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📝 How to add your shops</h2>
+      <p class="notice">
+        This first version uses sample shop names. Open this file in a text editor and edit the
+        <b>shopData</b> section (including <b>lobby</b>) to add your real shops. You can later upgrade it with an admin
+        page,
+        database, staff login, cleaning status and a proper clickable mall map.
+      </p>
+    </div>
+  </main>
+  <!-- Search Result Popup -->
+<div id="searchPopup" class="search-popup">
+  <div class="search-popup-box">
+    <button class="close-popup" onclick="closeSearchPopup()">×</button>
+
+    <h2>🔎 Search Results</h2>
+    <div id="popupResults"></div>
+  </div>
+</div>
+
+  <footer>Personal supervisor locator • Not an official Westfield map</footer>
+
+  <script>
+    const shopData = [
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Breitling"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Jewells"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Pure Seoul"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Moida K-Beauty"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Boots"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"ProCook"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Carvela"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Monsoon"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Phase Eight"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Vision Express"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Rituals"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"khaadi"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Blink Bro Bar"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"Karaca"},
+
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"A", shop:"West Elm"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"B", shop:"John Lewis and Partners"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"B", shop:"Stokke"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"B", shop:"Clarendon Fine Art"},
+
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Ole and Steen"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Newbie"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Esla Hair and Kids"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Therapie Clinic"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"H&M Home"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"The White Company"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Charles Trywhitt"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Samsonite"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Skopes"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Waterstones"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Hotel Chocolat"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Vivavia"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Penhaligons"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Whistles"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Hobbs"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Space Nk"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Kurt Geiger"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"UGG"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Zen Diamond"},
+  {floor:"Ground Floor", area:"40", lobby:"9", cat:"C", shop:"Sky"},
+
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"H.Samuel"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Genesis"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Mi Bolsa"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Chisholm Hunter"},
+  {floor:"Ground Floor", area:"43", lobby:"6", cat:"A", shop:"M&S"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Aesop (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Brown Diamonds (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"A", shop:"Swarovski (R)"},
+
+  {floor:"Ground Floor", area:"43", lobby:"6", cat:"B", shop:"Mango Man"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Dune London"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Tommy Hilfinger"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Reiss"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"COS"},
+  {floor:"Ground Floor", area:"43", lobby:"VILLAGE", cat:"B", shop:"Alo"},
+  {floor:"Ground Floor", area:"43", lobby:"VILLAGE", cat:"B", shop:"Kate Spade New York"},
+
+  {floor:"Ground Floor", area:"43", lobby:"6", cat:"B", shop:"Ernest Jones (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Hackett london (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Boggo Milano (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Calvin Klein (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Tumi (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Gant (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"Lacoste (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"B", shop:"BOSS (R)"},
+
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Brucherer"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"APM Monaco"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Leem"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Longchamp"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Michae Kors"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Coach"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Armani Exchange"},
+
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Karl Lagerfeld (R)"},
+  {floor:"Ground Floor", area:"43", lobby:"", cat:"C", shop:"Tory Burch (R)"},
+
+
+  {floor:"Ground Floor", area:"43", lobby:"2", cat:"D", shop:"JUUL"},
+  {floor:"Ground Floor", area:"43", lobby:"2", cat:"D", shop:"NEOM"},
+  {floor:"Ground Floor", area:"43", lobby:"2", cat:"D", shop:"Ajmal"},
+  {floor:"Ground Floor", area:"43", lobby:"2", cat:"D", shop:"EL & N"},
+
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"All Saints"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Diesel"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"MAC"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Tesla"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Carlton London"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Salomon"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Xiaomi"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"DJI"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Dr Martens"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Divr Labs"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Drive Lounge"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Wingstop"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Zizi"},
+
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Charlotte Tilbury (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Nordic Outdoor (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"The Anime Otaku (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Sole (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Suit Direct (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Santoro Milan (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Levi's (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Cult by Superdry (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"The North Face (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Herbal Inn (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"ISmash (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Just In Case (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Arabain Oud (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"3", cat:"A", shop:"Whittard of Chelsea (R)"},
+
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Trotters"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Lego"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"The Workd"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Angel and Rocket"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Pretty Cute"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Polam O Pyret"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Entertainer"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"TG Jones"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Next"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Cath Kidston"},
+  
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"ASHK (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Smiggle (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"4", cat:"B", shop:"Kids Around (R)"},
+
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Vodafone"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Dunelm"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Holland & Barrett"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Milano Couture"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Calzedonia"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Foot Locker"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"GYM Shark"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Neal's Yard Remedies"},
+
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Three 3 (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"MenKind (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Halifax (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Ann Summers (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Beauty Base (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"JD Sports (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"The Body Shop (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Laser Clinics UK (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Steve Madden (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"5", cat:"C", shop:"Pandora (R)"},
+
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Monica Vinader"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"The Fragrance Shop"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"The Ordinary"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Kiehl's"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Untamd"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Honey Birdette"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Laderach"},
+  {floor:"Ground Floor", area:"43", lobby:"8", cat:"D", shop:"Tala"},
+
+  {floor:"Ground Floor", area:"41", lobby:"Village", cat:"V", shop:"Omega"},
+  {floor:"Ground Floor", area:"41", lobby:"Village", cat:"V", shop:"Gucchi"},
+  {floor:"Ground Floor", area:"41", lobby:"Village", cat:"V", shop:"Prada"},
+
+  {floor:"Ground Floor", area:"41", lobby:"Village", cat:"V", shop:"Tiffany & Co. (R)"},
+  {floor:"Ground Floor", area:"41", lobby:"Village", cat:"V", shop:"Louis Vuitton (R)"},
+  
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Adidas"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Accessorize"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"River Island"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Stradivarius"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Breshka"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Bath & Body Works"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Guess"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Mango"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Lush"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Moss Bros"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Starbucks Reserve"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Primark"},
+
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"John Lewis & Partners"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"The CLB"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Flying Tiger"},
+
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Pret A Manager (R)"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Bravissimo (R)"},
+  {floor:"First Floor", area:"50", lobby:"9", cat:"A", shop:"Foneworld (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Hamleys (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Currys (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Sephora (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Pull and Bear (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Aroma Zone (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Swatch (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"BloomBloom (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"Lovisa (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"L'Occitane en Provence (R)"},
+  {floor:"First Floor", area:"50", lobby:"", cat:"A", shop:"H & M"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Bize"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Hawes and Curtis"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Geox"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Ecco"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"M & S"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Timberland (R)"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Tashola (R)"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"A", shop:"Scribbler (R)"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"GAP"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Victoria's Scret"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Urban Outfitters"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Massimo Dutti"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Sunglass"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"NHS Blood Donation (R)"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"RUE Les (R)"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Suitsupply (R)"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"B", shop:"Lululemon (R)"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"C", shop:"New Balance (R)"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"C", shop:"Waterdrop"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"C", shop:"Pret A Manager"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"C", shop:"Zara"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"D", shop:"Apple"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"D", shop:"Oyosho"},  
+  {floor:"First Floor", area:"53", lobby:"", cat:"D", shop:"Abercrombie & Fitch"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"D", shop:"Tapas Revolution"},
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Prince Pgarmacy"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Euro Eyes"},
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Dental Excellence"},  
+
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Effect Doctors (R)"},  
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"SoShell (R)"},  
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Stretch LAB (R)"},  
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"LoveMyLife (R)"},  
+  {floor:"First Floor", area:"53", lobby:"", cat:"V", shop:"Grand Caffe Concerto (R)"},  
+
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Nike"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Skechers"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Hollister"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Gilly Hicks"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Subdued"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Uni QLO"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Lily Nails"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Superdrug"},  
+ 
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Lovisa (R)"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Kiko Makeup Milano (R)"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Moleskine (R)"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"P2bus (R)"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Boux Avenue (R)"},  
+  {floor:"First Floor", area:"51", lobby:"3", cat:"A", shop:"Schuh (R)"}, 
+  {floor:"First Floor", area:"51", lobby:"", cat:"A", shop:"Pop Mart (R)"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"A", shop:"ITSU (R)"},
+
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"TK Max"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"Apricot"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"Dichmann"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"HMV"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"Sports Direct"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"ETHNC"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"B", shop:"Mamas & Papas"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"B", shop:"Next"}, 
+
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"Soho Coffee (R)"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"The Little GYM (R) "},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"The Perfume Shop (R)"},  
+  {floor:"First Floor", area:"51", lobby:"4", cat:"B", shop:"Global Exchange (R)"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"B", shop:"Card Factory (R)"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"B", shop:"Optical Express (R)"},  
+  {floor:"First Floor", area:"51", lobby:"", cat:"B", shop:"O2 (R)"},  
+
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"MC Donals"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Chipotle"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Greggs"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Kenji"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Clarks"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"EE Studio"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Foot Asylum"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Samsung"},  
+
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Warren James (R)"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Reserved (R)"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Miniso (R)"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"Office (R)"},  
+  {floor:"First Floor", area:"51", lobby:"5", cat:"C", shop:"EuroExchange (R)"} 
+
+];
+
+    let selectedFloor = "Ground Floor";
+    let selectedArea = "41";
+    let selectedCat = "ALL";
+    let selectedLobby = "ALL";
+
+    const floorsEl = document.getElementById("floors");
+    const areasEl = document.getElementById("areas");
+    const catsEl = document.getElementById("categories");
+    const lobbiesEl = document.getElementById("lobbies");
+    const resultsEl = document.getElementById("results");
+    const summaryEl = document.getElementById("summary");
+    const searchEl = document.getElementById("search");
+    const mapTitle = document.getElementById("mapTitle");
+    const searchPopup = document.getElementById("searchPopup");
+    const popupResults = document.getElementById("popupResults");
+
+    function unique(values) {return [...new Set(values)];}
+
+    function showSearchPopup() {
+  const q = searchEl.value.trim().toLowerCase();
+
+  if (!q) {
+    closeSearchPopup();
+    return;
+  }
+
+  const data = shopData.filter(x =>
+    x.shop.toLowerCase().includes(q) ||
+    x.floor.toLowerCase().includes(q) ||
+    x.area.toLowerCase().includes(q) ||
+    x.cat.toLowerCase() === q ||
+    x.lobby.toLowerCase().includes(q) ||
+    ("lobby " + x.lobby).includes(q) ||
+    ("area " + x.area).includes(q)
+  );
+
+  popupResults.innerHTML = "";
+
+  if (!data.length) {
+    popupResults.innerHTML = `
+      <div class="popup-empty">
+        No shops found for "<strong>${searchEl.value}</strong>"
+      </div>
+    `;
+  } else {
+    data.forEach(x => {
+      const div = document.createElement("div");
+      div.className = "popup-shop";
+
+      div.innerHTML = `
+        <strong>🏪 ${x.shop}</strong>
+        <span class="tag">${x.floor}</span>
+        <span class="tag">Area ${x.area}</span>
+        ${x.lobby
+          ? `<span class="tag">Lobby ${x.lobby}</span>`
+          : `<span class="tag">Lobby —</span>`
+        }
+        <span class="tag">Category ${x.cat}</span>
+        <span class="tag">${categoryName(x.cat)}</span>
+      `;
+
+      popupResults.appendChild(div);
+    });
+  }
+
+  searchPopup.classList.add("show");
+}
+
+
+function closeSearchPopup() {
+  searchPopup.classList.remove("show");
+}
+
+    function renderFloors() {
+      floorsEl.innerHTML = "";
+      unique(shopData.map(x => x.floor)).forEach(f => {
+        const b = document.createElement("button");
+        b.className = "floor-btn" + (f === selectedFloor ? " active" : "");
+        b.textContent = f;
+        b.onclick = () => {selectedFloor = f; selectedArea = unique(shopData.filter(x => x.floor === f).map(x => x.area))[0]; selectedCat = "ALL"; selectedLobby = "ALL"; render();};
+        floorsEl.appendChild(b);
+      });
+    }
+
+    function renderAreas() {
+      areasEl.innerHTML = "";
+      unique(shopData.filter(x => x.floor === selectedFloor).map(x => x.area)).forEach(a => {
+        const b = document.createElement("button");
+        b.className = "area-btn" + (a === selectedArea ? " active" : "");
+        b.textContent = "Area " + a;
+        b.onclick = () => {selectedArea = a; selectedCat = "ALL"; selectedLobby = "ALL"; render();};
+        areasEl.appendChild(b);
+      });
+    }
+
+    function renderCats() {
+      catsEl.innerHTML = "";
+      [["ALL", "All sides"], ["A", "A — Left"], ["B", "B — Central"], ["C", "C — Right"], ["D", "D — Central Backward"]].forEach(([c, label]) => {
+        const b = document.createElement("button");
+        b.className = "category-btn" + (c === selectedCat ? " active" : "");
+        b.textContent = label;
+        b.onclick = () => {selectedCat = c; render();};
+        catsEl.appendChild(b);
+      });
+    }
+
+    function renderLobbies() {
+      lobbiesEl.innerHTML = "";
+      const lobbies = unique(shopData.filter(x => x.floor === selectedFloor && x.area === selectedArea).map(x => x.lobby).filter(Boolean));
+      [["ALL", "All lobbies"], ...lobbies.map(l => [l, `Lobby ${l}`])].forEach(([l, label]) => {
+        const b = document.createElement("button");
+        b.className = "lobby-btn" + (l === selectedLobby ? " active" : "");
+        b.textContent = label;
+        b.onclick = () => {selectedLobby = l; render();};
+        lobbiesEl.appendChild(b);
+      });
+    }
+
+    function renderResults() {
+      const q = searchEl.value.trim().toLowerCase();
+      let data = shopData.filter(x => x.floor === selectedFloor && x.area === selectedArea);
+      if (selectedLobby !== "ALL") data = data.filter(x => x.lobby === selectedLobby);
+      if (selectedCat !== "ALL") data = data.filter(x => x.cat === selectedCat);
+      if (q) data = shopData.filter(x =>
+        x.shop.toLowerCase().includes(q) ||
+        x.floor.toLowerCase().includes(q) ||
+        x.area.toLowerCase().includes(q) ||
+        x.cat.toLowerCase() === q ||
+        x.lobby.toLowerCase().includes(q) ||
+        ("lobby " + x.lobby).includes(q) ||
+        ("area " + x.area).includes(q)
+      );
+
+      summaryEl.textContent = q
+        ? `Search results: ${data.length} location(s)`
+        : `${selectedFloor} • Area ${selectedArea} • ${selectedLobby === "ALL" ? "All lobbies" : "Lobby " + selectedLobby} • ${selectedCat === "ALL" ? "All sides" : "Category " + selectedCat}`;
+
+      resultsEl.innerHTML = "";
+      if (!data.length) {resultsEl.innerHTML = '<div class="empty">No shops found.<br>Add your real shop names to the shopData list.</div>'; return;}
+
+      data.forEach(x => {
+        const div = document.createElement("div");
+        div.className = "shop";
+        div.innerHTML = `<strong>🏪 ${x.shop}</strong>
+      <span class="tag">${x.floor}</span>
+      <span class="tag">Area ${x.area}</span>
+      ${x.lobby ? `<span class="tag">Lobby ${x.lobby}</span>` : `<span class="tag">Lobby —</span>`}
+      <span class="tag">Category ${x.cat}</span>
+      <span class="tag">${categoryName(x.cat)}</span>`;
+        resultsEl.appendChild(div);
+      });
+    }
+
+    function categoryName(c) {
+      return ({A: "Left", B: "Central", C: "Right", D: "Central Backward"})[c] || "";
+    }
+
+    function updateMap() {
+      document.querySelectorAll(".zone").forEach(z => z.classList.toggle("selected", z.dataset.cat === selectedCat));
+      mapTitle.textContent = `Area ${selectedArea} — Simple Map`;
+    }
+
+    document.querySelectorAll(".zone").forEach(z => {
+      z.onclick = () => {selectedCat = z.dataset.cat; render();};
+    });
+    searchEl.addEventListener("input", showSearchPopup);
+
+    function render() {renderFloors(); renderAreas(); renderCats(); renderLobbies(); renderResults(); updateMap();}
+    render();
+  </script>
+</body>
+
+</html>
